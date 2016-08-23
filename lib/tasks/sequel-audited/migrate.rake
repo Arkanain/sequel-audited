@@ -1,16 +1,12 @@
-require 'file_utils'
+require 'rake/file_utils'
 
 namespace :audited do
-  
   namespace :migrate do
-    
     desc 'Installs Sequel::Audited migration, but does not run it'
     task :install do
-      num = Dir["#{Dir.pwd}/db/migrate/*.rb"].sort.last[0, 3] ||= '001'
-      
       FileUtils.cp(
-        "#{File.dirname(__FILE__)}/templates/audited_migration.rb", 
-        "#{Dir.pwd}/db/migrate/#{num}_create_audited_table.rb"
+        "#{File.dirname(__FILE__)}/templates/audited_migration.rb",
+        "#{Dir.pwd}/db/migrate/#{Time.now.utc.strftime('%Y%m%d%H%M%S')}_create_audited_table.rb"
       )
     end
     
@@ -19,5 +15,4 @@ namespace :audited do
       puts 'TODO: no updates required yet'
     end
   end
-  
 end

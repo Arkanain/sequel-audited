@@ -1,19 +1,16 @@
 Sequel.migration do
-  # created by sequel-audited gem
-  
   change do
-    
     create_table(:audited_logs) do
       primary_key :id
-      column :model,            :string
-      column :model_pk,         :string
-      column :event,            :string
+      column :model,            String
+      column :model_pk,         String
+      column :event,            String
       column :changed,          :text
-      column :version,          :integer, default: 0
-      column :user_id,          :integer
-      column :username,         :string
-      column :user_type,        :string, default: :User
-      column :created_at,       :datetime
+      column :version,          Integer, default: 0
+      column :user_id,          Integer
+      column :username,         String
+      column :user_type,        String
+      column :created_at,       :timestamp
       
       
       # column :audited_id,       :integer
@@ -41,10 +38,7 @@ Sequel.migration do
       # add_index :audits, [:associated_id, :associated_type], :name => 'associated_index'
       # add_index :audits, [:user_id, :user_type], :name => 'user_index'
       # add_index :audits, :request_uuid
-      add_index :audits, :created_at
-      
+      index :created_at
     end
-    
   end
-  
 end
