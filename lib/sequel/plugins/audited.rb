@@ -8,13 +8,13 @@ class AuditLog < Sequel::Model
   # many_to_one :associated, polymorphic: true
   # many_to_one :user,       polymorphic: true
   
-  def before_validation
-    # grab the current user
-    u = audit_user
-    self.user_id    = u.id
-    self.username   = u.username
-    self.user_type  = u.class.name ||= :User
-  end
+  # def before_validation
+  #   # grab the current user
+  #   u = audit_user
+  #   self.user_id    = u.id
+  #   self.username   = u.username
+  #   self.user_type  = u.class.name ||= :User
+  # end
   
   # private
   
@@ -22,20 +22,16 @@ class AuditLog < Sequel::Model
   # audited model, either via defaults or via :user_method config options
   # 
   # # NOTE! this allows overriding the default value on a per audited model
-  def audit_user
-    m = Kernel.const_get(model_type)
-    send(m.audited_current_user_method)
-  end
-  
+  # def audit_user
+  #   m = Kernel.const_get(model_type)
+  #   send(m.audited_current_user_method)
+  # end
 end
 
 
 
 module Sequel
-  
-  #
   module Plugins
-    
     # Given a Post model with these fields: 
     #   [:id, :category_id, :title, :body, :author_id, :created_at, :updated_at]
     #
@@ -66,7 +62,6 @@ module Sequel
     # 
     # 
     module Audited
-      
       # called when 
       def self.configure(model, opts = {})
         model.instance_eval do
@@ -109,22 +104,16 @@ module Sequel
             key: :model_pk, 
             conditions: { model_type: model.name.to_s }
           )
-          
         end
-        
-        
       end
-      
-      # 
+
       module ClassMethods
-        
         attr_accessor :audited_default_ignored_columns, :audited_current_user_method
         # The holder of ignored columns
         attr_reader :audited_ignored_columns
         # The holder of columns that should be audited
         attr_reader :audited_included_columns
-        
-        
+
         Plugins.inherited_instance_variables(self,
                                              :@audited_default_ignored_columns => nil,
                                              :@audited_current_user_method     => nil,
@@ -204,11 +193,8 @@ module Sequel
         end
         
       end
-      
-      
-      # 
+
       module InstanceMethods
-        
         # Returns who put the post into its current state.
         #   
         #   post.blame  # => 'joeblogs'
@@ -236,8 +222,7 @@ module Sequel
           v ? v.created_at : 'not audited'
         end
         alias_method :last_audited_on, :last_audited_at
-        
-        
+
         private
         
         # extract audited values only
@@ -281,11 +266,7 @@ module Sequel
             changed:     self.to_json
           )
         end
-        
       end
-      
     end
-    
   end
-  
 end
