@@ -3,7 +3,7 @@ Sequel.migration do
     create_table :audit_logs do
       primary_key :id
       column :model_type,       String
-      column :model_pk,         String
+      column :model_pk,         Integer
       column :event,            String
       column :changed,          :text
       column :version,          Integer, default: 0
