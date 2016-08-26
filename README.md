@@ -473,6 +473,31 @@ post.last_audited_at
 post.last_audited_on  #=> <timestamp>
 ```
 
+### `.previous_version`
+`steps_back` parameter will set number of steps back from last version.
+
+```ruby
+# Return model object with previous fields values
+post.title  #=> 'Title'
+post.update(title: 'New Title')
+
+post.title  #=> 'New Title'
+post.previous_version.title  #=> 'Title'
+```
+
+### `.previous_version!`
+`steps_back` parameter will set number of steps back from last version.
+
+```ruby
+# Turn back model object to previous fields values. Work same as `.previous_version.save`
+post.title  #=> 'Title'
+post.update(title: 'New Title')
+
+post.title  #=> 'New Title'
+post.previous_version!
+post.title  #=> 'Title'
+```
+
 
 ### To be implemented
 
