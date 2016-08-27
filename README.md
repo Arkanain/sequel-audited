@@ -507,19 +507,6 @@ post.version_at(timestamp)
 
 # Returns the objects (not Versions) as they were between the given times.
 post.versions_between(start_time, end_time)
-
-# Returns the post (not a version) as it was most recently.
-post.previous_version
-
-# Returns the post (not a version) as it became next.
-post.next_version
-
-
-# Turn Audited on for all posts.
-post.audited_on!
-
-# Turn Audited off for all posts.
-post.audited_off!
 ```
 
 
